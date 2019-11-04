@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-
 import cors from 'cors';
+import mongoose from 'mongoose';
 
-import apiRoutes from './routes/api';
+import router from './routes/api';
 import fccTestingRoutes from './routes/fcctesting';
 import runner from './test-runner';
 
@@ -18,13 +18,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Sample front-end
 app.route('/:project/')
-  .get((req, res) => {
+  .get((req: Request, res: Response): void => {
     res.sendFile(`${process.cwd()}/src/views/issue.html`);
   });
 
 // Index page (static HTML)
 app.route('/')
-  .get((req, res) => {
+  .get((req: Request, res: Response): void => {
     res.sendFile(`${process.cwd()}/src/views/index.html`);
   });
 
@@ -32,29 +32,37 @@ app.route('/')
 fccTestingRoutes(app);
 
 // Routing for API
-apiRoutes(app);
+app.use(router);
 
 // 404 Not Found Middleware
-app.use((req: Request, res: Response, next: Function) => {
+app.use((req: Request, res: Response, next: Function): void => {
   res.status(404)
     .type('text')
     .send('Not Found');
 });
 
-// Start our server and tests!
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Listening on port ${process.env.PORT}`);
-  if (process.env.NODE_ENV === 'test') {
-    console.log('Running Tests...');
-    setTimeout(() => {
-      try {
-        runner.run();
-      } catch (error) {
-        console.log('Tests are not valid:');
-        console.log(error);
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });
+    app.listen(process.env.PORT, (): void => {
+      console.log(`Listening on port ${process.env.PORT}`);
+      if (process.env.NODE_ENV === 'test') {
+        console.log('Running Tests...');
+        setTimeout((): void => {
+          try {
+            runner.run();
+          } catch (error) {
+            console.log('Tests are not valid:');
+            console.log(error);
+          }
+        }, 3500);
       }
-    }, 3500);
+    });
+  } catch (error) {
+    console.log(error);
   }
-});
+}
 
-module.exports = app; // for testing
+startServer();
+
+export { app }; // for testing

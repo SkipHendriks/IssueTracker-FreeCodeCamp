@@ -4,7 +4,9 @@
     "target": "es2017",
     "outDir": "./dist",
     "baseUrl": "./src",
-    "esModuleInterop": true
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node"
   },
   "include": [
     "src/**/*.ts"
