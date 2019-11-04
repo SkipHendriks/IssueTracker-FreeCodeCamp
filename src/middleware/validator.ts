@@ -14,10 +14,8 @@ const validationMiddleware = (type: Class): RequestHandler => {
           target: false,
         },
       });
-      console.log(req.body);
       next();
     } catch (errors) {
-      console.log(errors);
       res.status(400).json(errors);
     }
   };

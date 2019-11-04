@@ -11,4 +11,21 @@ export default class ApiController {
       res.status(500).json(error);
     }
   }
+
+  public putIssue = async (req: Request, res: Response) => {
+    try {
+      const issue = await IssueModel.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true, upsert: false });
+      if(issue){
+        res.json(issue);
+      } else {
+        res.status(400).json({ error: '_id not found' });
+      }
+    } catch (error) {
+      if(error.name === "CastError"){
+        res.status(400).json({error: '_id invalid'});
+      } else {
+        res.status(500).json({error: 'Internal server error'});
+      }
+    }
+  }
 }

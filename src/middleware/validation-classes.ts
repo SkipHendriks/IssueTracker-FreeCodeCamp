@@ -24,7 +24,23 @@ export class Post {
 }
 
 export class Put {
+  @IsDefined()
+  _id: string;
 
+  @IsOptional()
+  issue_title: string;
+
+  @IsOptional()
+  issue_text: string;
+
+  @IsOptional()
+  created_by: string;
+
+  @IsOptional()
+  assigned_to: string;
+
+  @IsOptional()
+  status_text: string;
 }
 
 export class Delete {

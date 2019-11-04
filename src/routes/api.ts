@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import requestValidator from '../middleware/validator';
-import { Post } from '../middleware/validation-classes';
+import { Post, Put } from '../middleware/validation-classes';
 import ApiController from '../controllers/main-controller';
 
 
@@ -14,9 +14,7 @@ apiRouter.get('/api/issues/:project', (req, res) => {
 
 apiRouter.post('/api/issues/:project', requestValidator(Post), apiController.postIssue);
 
-apiRouter.put('/api/issues/:project', function (req, res){
-  var project = req.params.project;
-});
+apiRouter.put('/api/issues/:project', requestValidator(Put), apiController.putIssue);
 
 apiRouter.delete('/api/issues/:project', function (req, res){
     var project = req.params.project;
