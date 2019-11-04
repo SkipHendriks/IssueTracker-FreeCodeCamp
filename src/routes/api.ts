@@ -19,8 +19,6 @@ apiRouter.post('/api/issues/:project', requestValidator(Post), apiController.pos
 
 apiRouter.put('/api/issues/:project', requestValidator(Put), apiController.putIssue);
 
-apiRouter.delete('/api/issues/:project', function (req, res){
-    var project = req.params.project;
-});
+apiRouter.delete('/api/issues/:project', apiController.deleteIssue);
 
 export default apiRouter;

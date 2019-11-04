@@ -28,4 +28,22 @@ export default class ApiController {
       res.type('txt').send(`could not update ${_id}`);
     }
   };
+
+  public deleteIssue = async (req: Request, res: Response) => {
+    const { _id } = req.body;
+    if (!_id) {
+      res.type('txt').send('_id error');
+    } else {
+      try {
+        const issue = await IssueModel.findByIdAndDelete(_id);
+        if (issue) {
+          res.type('txt').send(`successfully deleted ${_id}`);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        res.type('txt').send(`could not delete ${_id}`);
+      }
+    }
+  };
 }
