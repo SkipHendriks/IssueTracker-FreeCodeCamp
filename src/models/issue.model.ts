@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import mongooseHidden from 'mongoose-hidden';
 
 export interface IIssue extends Document {
   issue_title: String,
@@ -10,12 +11,14 @@ export interface IIssue extends Document {
 }
 
 const IssueSchema: Schema = new Schema({
-  issue_title: { type: String, required: true},
-  issue_text: { type: String, required: true},
-  created_by: { type: String, required: true},
+  issue_title: { type: String, required: true },
+  issue_text: { type: String, required: true },
+  created_by: { type: String, required: true },
   assigned_to: { type: String },
   open: { type: Boolean, required: true, default: true },
   status_text: { type: String },
 });
+
+IssueSchema.plugin(mongooseHidden({ defaultHidden: { __v: true } }));
 
 export default mongoose.model<IIssue>('Issue', IssueSchema);
