@@ -6,6 +6,7 @@ export interface IProject extends Document {
 
 export interface IProjectModel extends Model<IProject> {
   findOneByNameOrCreate(name: string): Promise<IProject>;
+  findOneByName(name: string): Promise<IProject>;
 }
 
 const ProjectSchema: Schema = new Schema({
@@ -15,6 +16,10 @@ const ProjectSchema: Schema = new Schema({
 ProjectSchema.statics.findOneByNameOrCreate = async function (name: string): Promise<IProject> {
   const project: IProject = await this.findOne({ name });
   return project || this.create({ name });
+};
+
+ProjectSchema.statics.findOneByName = async function (name: string): Promise<IProject> {
+  return this.findOne({ name });
 };
 
 export default mongoose.model<IProject, IProjectModel>('Project', ProjectSchema);
