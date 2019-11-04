@@ -35,7 +35,7 @@ export default class ApiController {
       res.type('txt').send('_id error');
     } else {
       try {
-        const issue = await IssueModel.findByIdAndDelete(_id);
+        const issue: IIssue = await IssueModel.findByIdAndDelete(_id);
         if (issue) {
           res.type('txt').send(`successfully deleted ${_id}`);
         } else {
