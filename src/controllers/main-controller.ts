@@ -17,18 +17,17 @@ export default class ApiController {
 
   public putIssue = async (req: Request, res: Response) => {
     try {
-      const issue = await IssueModel.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true, upsert: false });
+      const { _id, ...updates } = req.body;
+      console.log(updates);
+      const issue = await IssueModel.findOneAndUpdate({ _id: req.body._id }, updates, { new: true, upsert: false });
       if(issue){
-        res.json(issue);
+        console.log(issue.toObject());
+        res.type('txt').send(`successfully updated ${req.body._id}`);
       } else {
-        res.status(400).json({ error: '_id not found' });
+        throw new Error();
       }
     } catch (error) {
-      if(error.name === "CastError"){
-        res.status(400).json({error: '_id invalid'});
-      } else {
-        res.status(500).json({error: 'Internal server error'});
-      }
+      res.type('txt').send(`could not update ${req.body._id}`)
     }
   }
 }

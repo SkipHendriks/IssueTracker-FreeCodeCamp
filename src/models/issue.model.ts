@@ -11,7 +11,8 @@ export interface IIssue extends Document {
   assigned_to: String,
   open: String,
   status_text: String,
-  project_id: ObjectId
+  project_id: ObjectId,
+  updated_on: Date
 }
 
 const IssueSchema: Schema = new Schema({
@@ -22,8 +23,8 @@ const IssueSchema: Schema = new Schema({
   open: { type: Boolean, required: true, default: true },
   status_text: { type: String },
   project_id: { type: ObjectId, required: true },
-});
+}, { timestamps: { updatedAt: 'updated_on', createdAt: 'created_on' } });
 
-IssueSchema.plugin(mongooseHidden({ defaultHidden: { __v: true } }));
+IssueSchema.plugin(mongooseHidden({ defaultHidden: { __v: true, created_on: true } }));
 
 export default mongoose.model<IIssue>('Issue', IssueSchema);

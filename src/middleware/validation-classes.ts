@@ -41,6 +41,10 @@ export class Put {
 
   @IsOptional()
   status_text: string;
+
+  @IsOptional()
+  open: boolean;
+
 }
 
 export class Delete {
