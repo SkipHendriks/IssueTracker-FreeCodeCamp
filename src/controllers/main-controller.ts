@@ -13,21 +13,19 @@ export default class ApiController {
     } catch (error) {
       res.status(500).json(error);
     }
-  }
+  };
 
   public putIssue = async (req: Request, res: Response) => {
+    const { _id, ...updates } = req.body;
     try {
-      const { _id, ...updates } = req.body;
-      console.log(updates);
-      const issue = await IssueModel.findOneAndUpdate({ _id: req.body._id }, updates, { new: true, upsert: false });
-      if(issue){
-        console.log(issue.toObject());
-        res.type('txt').send(`successfully updated ${req.body._id}`);
+      const issue = await IssueModel.findOneAndUpdate({ _id }, updates, { new: true, upsert: false });
+      if (issue) {
+        res.type('txt').send(`successfully updated ${_id}`);
       } else {
         throw new Error();
       }
     } catch (error) {
-      res.type('txt').send(`could not update ${req.body._id}`)
+      res.type('txt').send(`could not update ${_id}`);
     }
-  }
+  };
 }
