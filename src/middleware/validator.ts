@@ -16,7 +16,7 @@ const validationMiddleware = (type: Class): RequestHandler => {
       });
       next();
     } catch (errors) {
-      res.status(400).json(errors);
+      res.status(400).type('txt').send(errors.join('\n'));
     }
   };
 };
