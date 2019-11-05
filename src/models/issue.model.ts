@@ -25,6 +25,6 @@ const IssueSchema: Schema = new Schema({
   project_id: { type: ObjectId, required: true },
 }, { timestamps: { updatedAt: 'updated_on', createdAt: 'created_on' } });
 
-IssueSchema.plugin(mongooseHidden({ defaultHidden: { __v: true, created_on: true } }));
+IssueSchema.plugin(mongooseHidden({ defaultHidden: { __v: true } }));
 
 export default mongoose.model<IIssue>('Issue', IssueSchema);
