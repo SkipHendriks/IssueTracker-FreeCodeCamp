@@ -11,7 +11,7 @@ const apiController = new ApiController();
 
 apiRouter.use(requestCleaner);
 
-apiRouter.get('/api/issues/:project', requestValidator(Get), apiController.getIssue);
+apiRouter.get('/api/issues/:project', requestValidator(Get), apiController.getIssues);
 
 apiRouter.post('/api/issues/:project', requestValidator(Post), apiController.postIssue);
 

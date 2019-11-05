@@ -47,7 +47,7 @@ export default class ApiController {
     }
   };
 
-  public getIssue = async (req: Request, res: Response) => {
+  public getIssues = async (req: Request, res: Response) => {
     const projectName: string = req.params.project;
     try {
       const project: IProject = await ProjectModel.findOneByName(projectName);
