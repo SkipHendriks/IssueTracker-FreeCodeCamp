@@ -6,7 +6,9 @@
     "baseUrl": "./src",
     "experimentalDecorators": true,
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "noImplicitAny": true
   },
   "include": [
     "src/**/*.ts"
