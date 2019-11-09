@@ -4,7 +4,9 @@
 	"description": "What am I about?",
 	"main": "src/server.ts",
 	"scripts": {
-		"dev": "ts-node --require dotenv/config ./src/server.ts"
+		"build": "tsc && npm run copy",
+		"test": "NODE_ENV=test node --require dotenv/config ./src/server.ts",
+		"copy": "cd ./src && find . -name '*.js' | cpio -pdm  ../dist && cd .."
 	},
 	"dependencies": {
 		"@types/cors": "^2.8.6",
