@@ -18,7 +18,11 @@ export default class ApiController {
   public putIssue = async (req: Request, res: Response) => {
     const { _id, ...updates } = req.body;
     try {
-      const issue = await IssueModel.findOneAndUpdate({ _id }, updates, { new: true, upsert: false });
+      const issue = await IssueModel.findOneAndUpdate(
+        { _id },
+        updates,
+        { new: true, upsert: false },
+      );
       if (issue) {
         res.type('txt').send(`successfully updated ${_id}`);
       } else {
@@ -52,7 +56,9 @@ export default class ApiController {
     try {
       const project: IProject = await ProjectModel.findOneByName(projectName);
       if (project) {
-        const issues: Array<IIssue> = await IssueModel.find({ project_id: project._id, ...req.body });
+        const issues: Array<IIssue> = await IssueModel.find(
+          { project_id: project._id, ...req.body },
+        );
         res.json(issues);
       } else {
         res.status(400).type('txt').send('project name doesn\'t exist');

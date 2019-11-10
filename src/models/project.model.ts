@@ -10,9 +10,10 @@ export interface IProjectModel extends Model<IProject> {
 }
 
 const ProjectSchema: Schema = new Schema({
-  name: { type: String, required: true, unique: true }
+  name: { type: String, required: true, unique: true },
 });
 
+/* eslint-disable func-names */
 ProjectSchema.statics.findOneByNameOrCreate = async function (name: string): Promise<IProject> {
   const project: IProject = await this.findOne({ name });
   return project || this.create({ name });
@@ -21,5 +22,6 @@ ProjectSchema.statics.findOneByNameOrCreate = async function (name: string): Pro
 ProjectSchema.statics.findOneByName = async function (name: string): Promise<IProject> {
   return this.findOne({ name });
 };
+/* eslint-enable func-names */
 
 export default mongoose.model<IProject, IProjectModel>('Project', ProjectSchema);
