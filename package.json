@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "tsc && npm run copy",
 		"test": "NODE_ENV=test node --require dotenv/config ./src/server.ts",
-		"copy": "cd ./src && find . -name '*.js' | cpio -pdm  ../dist && cd .."
+		"copy": "cd ./src && find . -path ./client -prune -o -name '*.js' | cpio -pdm  ../dist && cd .."
 	},
 	"dependencies": {
 		"@types/cors": "^2.8.6",
