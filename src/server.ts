@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import { join as joinPath } from 'path';
 
 import router from './routes/api';
 import fccTestingRoutes from './routes/fcctesting';
@@ -10,7 +11,7 @@ import runner from './test-runner';
 
 const app = express();
 
-app.use('/public', express.static(`${process.cwd()}/public`));
+app.use('/public', express.static(joinPath(__dirname, 'public')));
 
 app.use(cors({ origin: '*' })); // For FCC testing purposes only
 
