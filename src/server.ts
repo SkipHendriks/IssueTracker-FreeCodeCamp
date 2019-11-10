@@ -1,3 +1,5 @@
+// BEFORE RELEASE TEST WITH GIVEN TEST RUNNER
+
 import './set-env';
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
