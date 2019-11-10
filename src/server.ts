@@ -48,25 +48,14 @@ app.use((req: Request, res: Response, next: Function): void => {
 const startServer = async () => {
   try {
     await mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });
-    app.listen(process.env.PORT, (): void => {
+    const server = app.listen(process.env.PORT);
       console.log(`Listening on port ${process.env.PORT}`);
-      if (process.env.NODE_ENV === 'test') {
-        console.log('Running Tests...');
-        setTimeout((): void => {
-          try {
-            runner.run();
-          } catch (error) {
-            console.log('Tests are not valid:');
-            console.log(error);
-          }
-        }, 3500);
-      }
-    });
+    return server;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-startServer();
+const server = startServer();
 
-export { app }; // for testing
+export { server }; // for testing
