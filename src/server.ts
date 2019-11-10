@@ -6,8 +6,8 @@ import mongoose from 'mongoose';
 import { join as joinPath } from 'path';
 
 import router from './routes/api';
-import fccTestingRoutes from './routes/fcctesting';
-import runner from './test-runner';
+
+const fccTestingRoutes = require('./routes/fcctesting');
 
 const app = express();
 
