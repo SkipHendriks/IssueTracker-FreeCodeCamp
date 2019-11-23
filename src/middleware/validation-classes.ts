@@ -73,3 +73,8 @@ export class Delete {
   @IsDefined()
   _id: ObjectId;
 }
+
+export class GetProjects {
+  @IsOptional()
+  limit: number;
+}

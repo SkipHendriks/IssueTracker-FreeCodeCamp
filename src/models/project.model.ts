@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongooseHidden from 'mongoose-hidden';
 
 export interface IProject extends Document {
   name: string;
@@ -23,5 +24,8 @@ ProjectSchema.statics.findOneByName = async function (name: string): Promise<IPr
   return this.findOne({ name });
 };
 /* eslint-enable func-names */
+
+
+ProjectSchema.plugin(mongooseHidden({ defaultHidden: { __v: true } }));
 
 export default mongoose.model<IProject, IProjectModel>('Project', ProjectSchema);

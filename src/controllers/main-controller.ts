@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import IssueModel, { IIssue } from '../models/issue.model';
-import ProjectModel, { IProject } from '../models/project.model';
+import ProjectModel, { IProject, IProjectModel } from '../models/project.model';
 
 export default class ApiController {
   public postIssue = async (req: Request, res: Response) => {
@@ -63,6 +63,18 @@ export default class ApiController {
       } else {
         res.status(400).type('txt').send('project name doesn\'t exist');
       }
+    } catch (error) {
+      res.status(500).type('txt').send('server error');
+    }
+  };
+
+  public getProjects = async (req: Request, res: Response) => {
+    const { limit } = req.body;
+    try {
+      const projects: Array<IProject> = await ProjectModel.find().limit(limit);
+      console.log(projects);
+      res.json(projects);
+      
     } catch (error) {
       res.status(500).type('txt').send('server error');
     }
