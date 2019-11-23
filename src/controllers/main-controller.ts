@@ -29,14 +29,14 @@ export default class ApiController {
         throw new Error();
       }
     } catch (error) {
-      res.type('txt').send(`could not update ${_id}`);
+      res.type('txt').status(500).send(`could not update ${_id}`);
     }
   };
 
   public deleteIssue = async (req: Request, res: Response) => {
     const { _id } = req.body;
     if (!_id) {
-      res.type('txt').send('_id error');
+      res.type('txt').status(400).send('_id error');
     } else {
       try {
         const issue: IIssue = await IssueModel.findByIdAndDelete(_id);
@@ -46,7 +46,7 @@ export default class ApiController {
           throw new Error();
         }
       } catch (error) {
-        res.type('txt').send(`could not delete ${_id}`);
+        res.type('txt').status(500).send(`could not delete ${_id}`);
       }
     }
   };
