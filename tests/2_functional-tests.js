@@ -144,63 +144,121 @@ suite('Functional Tests', () => {
   suite('GET /api/issues/{project} => Array of objects with issue data', () => {
     test('No filter', (done) => {
       chai.request('http://localhost:3000')
-        .get('/api/issues/test')
-        .query({})
-        .end((err, res) => {
-          assert.equal(res.status, 200);
-          assert.isArray(res.body);
-          assert.property(res.body[0], 'issue_title');
-          assert.property(res.body[0], 'issue_text');
-          assert.property(res.body[0], 'created_on');
-          assert.property(res.body[0], 'updated_on');
-          assert.property(res.body[0], 'created_by');
-          assert.property(res.body[0], 'assigned_to');
-          assert.property(res.body[0], 'open');
-          assert.property(res.body[0], 'status_text');
-          assert.property(res.body[0], '_id');
-          done();
+        .post('/api/issues/test')
+        .send({
+          issue_title: 'Title',
+          issue_text: 'text',
+          created_by: 'Functional Test - Every field filled in',
+        }).end((err, res) => {
+          chai.request('http://localhost:3000')
+            .get('/api/issues/test')
+            .query({})
+            .end((err, res) => {
+              assert.equal(res.status, 200);
+              assert.isArray(res.body);
+              assert.property(res.body[0], 'issue_title');
+              assert.property(res.body[0], 'issue_text');
+              assert.property(res.body[0], 'created_on');
+              assert.property(res.body[0], 'updated_on');
+              assert.property(res.body[0], 'created_by');
+              assert.property(res.body[0], 'assigned_to');
+              assert.property(res.body[0], 'open');
+              assert.property(res.body[0], 'status_text');
+              assert.property(res.body[0], '_id');
+              done();
+            });
         });
     });
 
     test('One filter', (done) => {
-
+      chai.request('http://localhost:3000')
+        .post('/api/issues/test')
+        .send({
+          issue_title: 'Title',
+          issue_text: 'text',
+          created_by: 'Functional Test - Every field filled in',
+        }).end((err, res) => {
+          chai.request('http://localhost:3000')
+            .get('/api/issues/test')
+            .query({ issue_title: 'Title' })
+            .end((err, res) => {
+              assert.equal(res.status, 200);
+              assert.isArray(res.body);
+              assert.property(res.body[0], 'issue_title');
+              assert.property(res.body[0], 'issue_text');
+              assert.property(res.body[0], 'created_on');
+              assert.property(res.body[0], 'updated_on');
+              assert.property(res.body[0], 'created_by');
+              assert.property(res.body[0], 'assigned_to');
+              assert.property(res.body[0], 'open');
+              assert.property(res.body[0], 'status_text');
+              assert.property(res.body[0], '_id');
+              assert.equal(res.body[0].issue_title, 'Title');
+              done();
+            });
+        });
     });
 
     test('Multiple filters (test for multiple fields you know will be in the db for a return)', (done) => {
-
+      chai.request('http://localhost:3000')
+        .post('/api/issues/test')
+        .send({
+          issue_title: 'Title',
+          issue_text: 'text',
+          created_by: 'Functional Test - Every field filled in',
+        }).end((err, res) => {
+          chai.request('http://localhost:3000')
+            .get('/api/issues/test')
+            .query({ issue_title: 'Title', issue_text: 'text' })
+            .end((err, res) => {
+              assert.equal(res.status, 200);
+              assert.isArray(res.body);
+              assert.property(res.body[0], 'issue_title');
+              assert.property(res.body[0], 'issue_text');
+              assert.property(res.body[0], 'created_on');
+              assert.property(res.body[0], 'updated_on');
+              assert.property(res.body[0], 'created_by');
+              assert.property(res.body[0], 'assigned_to');
+              assert.property(res.body[0], 'open');
+              assert.property(res.body[0], 'status_text');
+              assert.property(res.body[0], '_id');
+              assert.equal(res.body[0].issue_title, 'Title');
+              done();
+            });
+        });
     });
   });
 
-  // suite('DELETE /api/issues/{project} => text', () => {
-  //   test('No _id', (done) => {
-  //     chai.request('http://localhost:3000')
-  //       .delete('/api/issues/test')
-  //       .send({})
-  //       .end((err, res) => {
-  //         assert.equal(res.status, 400);
-  //       });
-  //   });
-
-  //   test('Valid _id', (done) => {
-  //     let id;
-  //     chai.request('http://localhost:3000')
-  //       .post('/api/issues/test')
-  //       .send({
-  //         issue_title: 'Title',
-  //         issue_text: 'text',
-  //         created_by: 'Functional Test - Every field filled in',
-  //       })
-  //       .end((err, res) => {
-  //         id = res.body._id;
-  //         chai.request('http://localhost:3000')
-  //           .delete('/api/issues/test')
-  //           .send({ _id: id })
-  //           .end((err, res) => {
-  //             assert.strictEqual(res.text, `successfully deleted ${id}`);
-  //             assert.equal(res.status, 200);
-  //             done();
-  //           });
-  //       });
-  //   });
-  // });
+  suite('DELETE /api/issues/{project} => text', () => {
+    test('No _id', (done) => {
+      chai.request('http://localhost:3000')
+        .delete('/api/issues/test')
+        .send({})
+        .end((err, res) => {
+          assert.equal(res.status, 400);
+          done();
+        });
+    });
+    test('Valid _id', (done) => {
+      let id;
+      chai.request('http://localhost:3000')
+        .post('/api/issues/test')
+        .send({
+          issue_title: 'Title',
+          issue_text: 'text',
+          created_by: 'Functional Test - Every field filled in',
+        })
+        .end((err, res) => {
+          id = res.body._id;
+          chai.request('http://localhost:3000')
+            .delete('/api/issues/test')
+            .send({ _id: id })
+            .end((err, res) => {
+              assert.strictEqual(res.text, `successfully deleted ${id}`);
+              assert.equal(res.status, 200);
+              done();
+            });
+        });
+    });
+  });
 });
