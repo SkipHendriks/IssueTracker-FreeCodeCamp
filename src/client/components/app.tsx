@@ -23,12 +23,19 @@ class App extends React.Component <RouteComponentProps> {
   async componentDidMount() {
     const response = await fetch('http://localhost:3000/api/projects');
     const projects: Array<IProject> = await response.json();
-    this.setState({ projects, isLoading: false });
+    const { location } = this.props;
+    const currentProjectName = location.pathname.split('/')[1];
+    const currentProject = projects.find((project) => project.name === currentProjectName);
+    this.setState({ projects, isLoading: false, currentProject });
   }
 
   onProjectSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const { history } = this.props;
-    history.push(`/${event.target.value}`);
+    const { projects } = this.state;
+    const newProjectName = event.target.value;
+    history.push(`/${newProjectName}`);
+    const newProject = projects.find((project) => project.name === newProjectName);
+    this.setState({ currentProject: newProject });
   };
 
   render() {
