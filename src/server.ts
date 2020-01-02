@@ -40,14 +40,10 @@ app.use((req: Request, res: Response, next: Function): void => {
 });
 
 const startServer = async () => {
-  try {
-    await mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });
-    const server = app.listen(process.env.PORT);
-    console.log(`Listening on port ${process.env.PORT}`);
-    return server;
-  } catch (error) {
-    console.log(error);
-  }
+  await mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useFindAndModify: false });
+  const server = app.listen(process.env.PORT);
+  console.log(`Listening on port ${process.env.PORT}`);
+  return server;
 };
 
 const server = startServer();
