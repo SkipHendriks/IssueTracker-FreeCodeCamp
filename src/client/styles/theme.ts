@@ -14,6 +14,13 @@ const styles: ThemeOptions = {
       primary: '#464646',
     },
   },
+  typography: {
+    fontSize: 16,
+    // lineHeight: '1.5',
+    h5: {
+      fontSize: 24,
+    },
+  },
 };
 
 export default createMuiTheme(styles);

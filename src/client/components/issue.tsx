@@ -8,6 +8,7 @@ import {
 import { withStyles, WithStyles, Theme } from '@material-ui/core/styles';
 
 import IssueIcon from './issue-icon';
+import EditButton from './edit-button';
 import { IIssue } from '../../models/issue.model';
 
 const ExpansionPanelSummary = withStyles((theme: Theme) => ({
@@ -72,11 +73,10 @@ const ExpansionPanelDetails = withStyles({
       content: '""',
       opacity: 1,
       position: 'absolute',
-      // transition: 'none',
       backgroundColor: 'rgba(0, 0, 0, 0.12)',
     },
-  },
   expanded: {},
+  },
 })(MuiExpansionPanelDetails);
 
 const styles = (theme: Theme) => ({
@@ -93,8 +93,8 @@ const styles = (theme: Theme) => ({
     padding: `${theme.spacing(0.5)}px ${theme.spacing(2)}px 0 ${theme.spacing(2)}px`,
   },
   iconContainerExtension: {
-    height: 'inherit',
     width: theme.spacing(7),
+    flex: '0 0 56px',
   },
   iconContainerExtensionOpen: {
     borderRight: `solid 1px ${theme.palette.secondary.shadowBorder}`,
@@ -105,6 +105,14 @@ const styles = (theme: Theme) => ({
     backgroundColor: theme.palette.primary.light,
   },
   issueText: {
+    lineHeight: '1.4',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  detailsContainer: {
+    display: 'block',
+    width: '100%',
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
   },
 });
@@ -134,9 +142,12 @@ const Issue = ({ issue, classes }: IProps) => {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <div className={`${classes.iconContainerExtension} ${iconContainerExtensionColor}`} />
+        <div className={classes.detailsContainer}>
         <Typography className={classes.issueText}>
           {issue.issue_text}
+            <EditButton issueId={issue._id} />
         </Typography>
+        </div>
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
