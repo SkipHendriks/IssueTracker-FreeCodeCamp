@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import IssueModel, { IIssue } from '../models/issue.model';
-import ProjectModel, { IProject, IProjectModel } from '../models/project.model';
+import ProjectModel, { IProject } from '../models/project.model';
 
 export default class ApiController {
   public postIssue = async (req: Request, res: Response) => {
@@ -17,6 +17,7 @@ export default class ApiController {
 
   public putIssue = async (req: Request, res: Response) => {
     const { _id, ...updates } = req.body;
+    console.log(req.body);
     try {
       const issue = await IssueModel.findOneAndUpdate(
         { _id },
@@ -77,9 +78,7 @@ export default class ApiController {
     const { limit } = req.body;
     try {
       const projects: Array<IProject> = await ProjectModel.find().limit(limit);
-      console.log(projects);
       res.json(projects);
-      
     } catch (error) {
       res.status(500).type('txt').send('server error');
     }
