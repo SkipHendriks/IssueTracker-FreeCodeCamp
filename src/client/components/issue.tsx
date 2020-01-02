@@ -39,23 +39,11 @@ const ExpansionPanelSummary = withStyles((theme: Theme) => ({
 const ExpansionPanel = withStyles({
   root: {
     padding: 0,
-    // border: '1px solid rgba(0, 0, 0, .125)',
-    // boxShadow: 'none',
     '&:not(:last-child)': {
       borderBottom: 0,
     },
-    // '&$expanded + &::before': {
-    //   display: 'block',
-    //   opacity: 1,
-    // },
-    // '&$expanded': {
-    //   margin: 'auto',
-    // },
   },
   expanded: {
-    // '&::before': {
-    //   opacity: '1 !important',
-    // },
     borderRadius: '4px',
   },
 })(MuiExpansionPanel);
@@ -75,7 +63,7 @@ const ExpansionPanelDetails = withStyles({
       position: 'absolute',
       backgroundColor: 'rgba(0, 0, 0, 0.12)',
     },
-  expanded: {},
+    expanded: {},
   },
 })(MuiExpansionPanelDetails);
 
@@ -143,10 +131,10 @@ const Issue = ({ issue, classes }: IProps) => {
       <ExpansionPanelDetails>
         <div className={`${classes.iconContainerExtension} ${iconContainerExtensionColor}`} />
         <div className={classes.detailsContainer}>
-        <Typography className={classes.issueText}>
-          {issue.issue_text}
+          <Typography className={classes.issueText}>
+            {issue.issue_text}
             <EditButton issueId={issue._id} />
-        </Typography>
+          </Typography>
         </div>
       </ExpansionPanelDetails>
     </ExpansionPanel>
