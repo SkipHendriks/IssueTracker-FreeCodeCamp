@@ -57,14 +57,14 @@ export default class ApiController {
     try {
       let issues: Array<IIssue>;
       if (projectName) {
-      const project: IProject = await ProjectModel.findOneByName(projectName);
-      if (project) {
+        const project: IProject = await ProjectModel.findOneByName(projectName);
+        if (project) {
           issues = await IssueModel.find(
-          { project_id: project._id, ...req.body },
-        );
-      } else {
-        res.status(400).type('txt').send('project name doesn\'t exist');
-      }
+            { project_id: project._id, ...req.body },
+          );
+        } else {
+          res.status(400).type('txt').send('project name doesn\'t exist');
+        }
       } else {
         issues = await IssueModel.find({ ...req.body });
       }
