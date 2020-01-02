@@ -17,9 +17,10 @@ const config: webpack.Configuration = {
   output: {
     filename: 'bundle.js',
     path: `${__dirname}/../../dist/public`,
+    publicPath: '/',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   devtool: 'source-map',
   module: {
