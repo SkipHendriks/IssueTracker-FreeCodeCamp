@@ -9,7 +9,7 @@ export interface IIssue extends Document {
   issue_text: String,
   created_by: String,
   assigned_to: String,
-  open: String,
+  open: boolean,
   status_text: String,
   project_id: ObjectId,
   updated_on: Date
