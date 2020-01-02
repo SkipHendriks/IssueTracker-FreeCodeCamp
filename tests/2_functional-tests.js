@@ -9,7 +9,7 @@
 const chaiHttp = require('chai-http');
 const chai = require('chai');
 
-const server = require('../dist/server');
+// const server = require('../dist/server');
 
 const { assert } = chai;
 
@@ -131,7 +131,12 @@ suite('Functional Tests', () => {
           id = res.body._id;
           chai.request('http://localhost:3000')
             .put('/api/issues/test')
-            .send({ _id: id, issue_text: 'text2', issue_title: 'new title' })
+            .send({
+              _id: id,
+              issue_text: 'text2',
+              issue_title: 'new title',
+              open: false,
+            })
             .end((err, res) => {
               assert.strictEqual(res.text, `successfully updated ${id}`);
               assert.equal(res.status, 200);
