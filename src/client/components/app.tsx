@@ -16,7 +16,7 @@ interface IState {
   currentProject?: IProject
 }
 
-const Test: React.SFC<RouteComponentProps<{projectName: string}>> = ({ match }) => (
+const Test = ({ match }: RouteComponentProps<{projectName: string}>) => (
   <>
     {match.url}
   </>
