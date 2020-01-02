@@ -1,5 +1,7 @@
 import React from 'react';
-import { withRouter, RouteComponentProps, Route, Switch } from 'react-router-dom';
+import {
+  withRouter, RouteComponentProps, Route, Switch,
+} from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core';
 
 import Banner from './banner';
@@ -14,7 +16,12 @@ interface IState {
   currentProject?: IProject
 }
 
+const Test: React.SFC<RouteComponentProps<{projectName: string}>> = ({ match }) => (
+  <>
+    {match.url}
   </>
+);
+
 class App extends React.Component <RouteComponentProps> {
   state: IState = {
     isLoading: true,
@@ -53,6 +60,7 @@ class App extends React.Component <RouteComponentProps> {
           <Route path="/edit">
             Test
           </Route>
+          <Route path="/:projectName/add" component={Test} />
           <Route path="/">
             <IssueContainer currentProject={currentProject} />
           </Route>
@@ -61,6 +69,5 @@ class App extends React.Component <RouteComponentProps> {
     );
   }
 }
-
 
 export default withRouter(App);
