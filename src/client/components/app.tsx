@@ -14,6 +14,7 @@ interface IState {
   currentProject?: IProject
 }
 
+  </>
 class App extends React.Component <RouteComponentProps> {
   state: IState = {
     isLoading: true,
@@ -48,9 +49,14 @@ class App extends React.Component <RouteComponentProps> {
           handleChange={this.onProjectSelect}
           currentProject={currentProject}
         />
+        <Switch>
+          <Route path="/edit">
+            Test
+          </Route>
+          <Route path="/">
             <IssueContainer currentProject={currentProject} />
           </Route>
-      </>
+        </Switch>
       </ThemeProvider>
     );
   }
