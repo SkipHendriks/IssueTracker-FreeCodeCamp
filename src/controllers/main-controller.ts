@@ -54,15 +54,20 @@ export default class ApiController {
   public getIssues = async (req: Request, res: Response) => {
     const projectName: string = req.params.project;
     try {
+      let issues: Array<IIssue>;
+      if (projectName) {
       const project: IProject = await ProjectModel.findOneByName(projectName);
       if (project) {
-        const issues: Array<IIssue> = await IssueModel.find(
+          issues = await IssueModel.find(
           { project_id: project._id, ...req.body },
         );
-        res.json(issues);
       } else {
         res.status(400).type('txt').send('project name doesn\'t exist');
       }
+      } else {
+        issues = await IssueModel.find({ ...req.body });
+      }
+      res.json(issues);
     } catch (error) {
       res.status(500).type('txt').send('server error');
     }
