@@ -1,12 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, withRouter, RouteComponentProps } from "react-router-dom";
+import { withRouter, RouteComponentProps, Route, Switch } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core';
 
 import Banner from './banner';
+import IssueContainer from './issue-container';
 import { IProject } from '../../models/project.model';
+import theme from '../styles/theme';
+
 
 interface IState {
   isLoading: boolean;
   projects: Array<IProject>;
+  currentProject?: IProject
 }
 
 class App extends React.Component <RouteComponentProps> {
@@ -27,24 +32,19 @@ class App extends React.Component <RouteComponentProps> {
   };
 
   render() {
-    const { projects, isLoading } = this.state;
-    const { location } = this.props;
-
-    const currentProject = location.pathname.split('/')[1];
+    const { projects, isLoading, currentProject } = this.state;
     return (
-      <>
+      <ThemeProvider theme={theme}>
         <Banner
           projects={projects}
           isLoading={isLoading}
           handleChange={this.onProjectSelect}
           currentProject={currentProject}
         />
-        <Route path="/:project">
-          <div>
-            {currentProject}
-          </div>
-        </Route>
+            <IssueContainer currentProject={currentProject} />
+          </Route>
       </>
+      </ThemeProvider>
     );
   }
 }

@@ -14,13 +14,13 @@ interface IProps {
   projects: Array<IProject>;
   isLoading: boolean;
   handleChange(event: React.ChangeEvent<HTMLSelectElement>): void;
-  currentProject: string;
+  currentProject: IProject;
 }
 
 const useOutlinedInputStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     margin: theme.spacing(2),
-      minWidth: 153,
+    minWidth: 153,
     color: theme.palette.primary.contrastText,
     '& $notchedOutline': {
       border: 0,
@@ -46,14 +46,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
       backgroundColor: theme.palette.primary.light,
       borderRadius: 'inherit',
     },
-    },
-    title: {
-      flexGrow: 1,
-    },
+  },
+  title: {
+    flexGrow: 1,
+  },
   selectIcon: {
     display: 'none',
   },
-  }));
+}));
 
 export default ({
   projects, isLoading, handleChange, currentProject,
@@ -86,7 +86,7 @@ export default ({
   if (isLoading || !currentProject) {
     selectValue = 'default';
   } else {
-    selectValue = currentProject;
+    selectValue = currentProject.name;
   }
 
   return (
@@ -95,10 +95,9 @@ export default ({
         <Typography variant="h6" className={classes.title} noWrap>
           Issue Tracker
         </Typography>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <Select
-            onChange={handleChange}
-            value={selectValue}
+        <Select
+          onChange={handleChange}
+          value={selectValue}
           variant="outlined"
           classes={{ root: classes.select, icon: classes.selectIcon }}
           input={(
@@ -107,10 +106,9 @@ export default ({
               classes={outlinedInputClasses}
             />
           )}
-          >
-            { menuItems }
-          </Select>
-        </FormControl>
+        >
+          { menuItems }
+        </Select>
       </Toolbar>
     </AppBar>
   );
