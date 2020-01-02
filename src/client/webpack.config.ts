@@ -5,6 +5,7 @@ import webpack from 'webpack';
 const htmlOptions: htmlWebpackTemplate.Options = {
   title: 'Issue Tracker | freeCodeCamp',
   template: htmlWebpackTemplate,
+  headHtmlSnippet: '<style>body {margin: 0;}</style >',
   inject: false,
   appMountId: 'app',
 };
