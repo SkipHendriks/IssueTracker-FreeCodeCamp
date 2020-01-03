@@ -12,7 +12,7 @@ import { IProject } from '../../models/project.model';
 
 interface IProps {
   projects: Array<IProject>;
-  isLoading: boolean;
+  loadingProjects: boolean;
   handleChange(event: React.ChangeEvent<HTMLSelectElement>): void;
   currentProject: IProject;
 }
@@ -56,13 +56,13 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 export default ({
-  projects, isLoading, handleChange, currentProject,
+  projects, loadingProjects, handleChange, currentProject,
 }: IProps) => {
   const classes = useStyles({});
   const outlinedInputClasses = useOutlinedInputStyles({});
 
   let menuItems;
-  if (isLoading) {
+  if (loadingProjects) {
     menuItems = (
       <MenuItem value="default">
         <em>Loading...</em>
@@ -75,7 +75,7 @@ export default ({
           <em>Select Project</em>
         </MenuItem>
       ),
-      projects.map((project: IProject) => (
+      projects.map((project) => (
         <MenuItem value={project.name} key={project._id}>{project.name}</MenuItem>
       )),
     ];
@@ -83,7 +83,7 @@ export default ({
 
   let selectValue;
 
-  if (isLoading || !currentProject) {
+  if (loadingProjects || !currentProject) {
     selectValue = 'default';
   } else {
     selectValue = currentProject.name;

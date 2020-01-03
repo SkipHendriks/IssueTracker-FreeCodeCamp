@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, LinearProgress, Fab } from '@material-ui/core';
 import {
   createStyles, withStyles, WithStyles, Theme,
@@ -30,60 +30,45 @@ const styles = (theme: Theme) => createStyles({
 
 interface IProps extends WithStyles<typeof styles> {
   currentProject: IProject;
+  loadingProjects: boolean;
 }
 
-interface IState {
-  isLoading: boolean;
-  issues: Array<IIssue>
-}
+const IssueContainer = ({ currentProject, loadingProjects, classes }: IProps) => {
+  const [isLoadingIssues, setIsLoadingIssues] = useState(true);
+  const [issues, setIssues] = useState<IIssue[]>([]);
 
-class IssueContainer extends React.Component<IProps> {
-  state: IState = {
-    isLoading: true,
-    issues: [],
-  };
-
-  async componentDidUpdate(oldProps: IProps) {
-    const { currentProject } = this.props;
-    const firstProjectProp = !oldProps.currentProject;
-    const updatedProjectProp = oldProps.currentProject
-      && oldProps.currentProject._id !== currentProject._id;
-    if (firstProjectProp || updatedProjectProp) {
-      const issues = await this.getIssues();
-      this.setState({ issues, isLoading: false });
+  useEffect(() => {
+    if (!loadingProjects) {
+      const getIssues = async () => {
+        const url = `http://localhost:3000/api/issues/${currentProject?.name || ''}`;
+        const response = await fetch(url);
+        const newIssues = await response.json() as IIssue[];
+        setIssues(newIssues);
+      };
+      getIssues();
+      setIsLoadingIssues(false);
     }
-  }
+  }, [currentProject?._id, loadingProjects]);
 
-  async getIssues(): Promise<Array<IIssue>> {
-    const { currentProject } = this.props;
-    const url = `http://localhost:3000/api/issues/${currentProject ? currentProject.name : ''}`;
-    const response = await fetch(url);
-    const issues: Array<IIssue> = await response.json();
-    return issues;
-  }
+  const addUrl = `${currentProject?.name || ''}/add`;
 
-  render() {
-    const { issues, isLoading } = this.state;
-    const { classes, currentProject } = this.props;
-    const addUrl = currentProject ? `${currentProject.name}/add` : '/add';
-    return (
-      <>
-        {isLoading && <LinearProgress />}
-        {!isLoading && (
-          <Container className={classes.mainContainer}>
-            {!isLoading && issues.map((issue: IIssue) => (
-              <Issue issue={issue} key={issue._id} />
-            ))}
-            <Link to={addUrl}>
-              <Fab color="primary" className={classes.addButton}>
-                <AddIcon />
-              </Fab>
-            </Link>
-          </Container>
-        )}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      {isLoadingIssues && <LinearProgress />}
+      {!isLoadingIssues && (
+        <Container className={classes.mainContainer}>
+          {!isLoadingIssues && issues.map((issue) => (
+            <Issue issue={issue} key={issue._id} />
+          ))}
+          <Link to={addUrl}>
+            <Fab color="primary" className={classes.addButton}>
+              <AddIcon />
+            </Fab>
+          </Link>
+        </Container>
+      )}
+    </>
+  );
+};
 
 export default withStyles(styles)(IssueContainer);

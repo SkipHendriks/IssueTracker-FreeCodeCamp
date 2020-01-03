@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   withRouter, RouteComponentProps, Route, Switch,
 } from 'react-router-dom';
@@ -9,65 +9,68 @@ import IssueContainer from './issue-container';
 import { IProject } from '../../models/project.model';
 import theme from '../styles/theme';
 
-
-interface IState {
-  isLoading: boolean;
-  projects: Array<IProject>;
-  currentProject?: IProject
-}
-
 const Test = ({ match }: RouteComponentProps<{projectName: string}>) => (
   <>
     {match.url}
   </>
 );
 
-class App extends React.Component <RouteComponentProps> {
-  state: IState = {
-    isLoading: true,
-    projects: [],
-  };
+const App = ({ location, history }: RouteComponentProps) => {
+  const [projects, setProjects] = useState<IProject[]>([]);
+  const [isLoadingProjects, setIsLoadingProjects] = useState(true);
+  const [currentProject, setCurrentProject] = useState<IProject | undefined>(undefined);
 
-  async componentDidMount() {
-    const response = await fetch('http://localhost:3000/api/projects');
-    const projects: Array<IProject> = await response.json();
-    const { location } = this.props;
-    const currentProjectName = location.pathname.split('/')[1];
-    const currentProject = projects.find((project) => project.name === currentProjectName);
-    this.setState({ projects, isLoading: false, currentProject });
-  }
+  const findCurrentProject = (name: string): IProject => (
+    projects.find((project) => project.name === name)
+  );
 
-  onProjectSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    const { history } = this.props;
-    const { projects } = this.state;
+  const onProjectSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const newProjectName = event.target.value;
     history.push(`/${newProjectName}`);
-    const newProject = projects.find((project) => project.name === newProjectName);
-    this.setState({ currentProject: newProject });
+    const newProject = findCurrentProject(newProjectName);
+    setCurrentProject(newProject);
   };
 
-  render() {
-    const { projects, isLoading, currentProject } = this.state;
-    return (
-      <ThemeProvider theme={theme}>
-        <Banner
-          projects={projects}
-          isLoading={isLoading}
-          handleChange={this.onProjectSelect}
-          currentProject={currentProject}
-        />
-        <Switch>
-          <Route path="/edit">
-            Test
-          </Route>
-          <Route path="/:projectName/add" component={Test} />
-          <Route path="/">
-            <IssueContainer currentProject={currentProject} />
-          </Route>
-        </Switch>
-      </ThemeProvider>
-    );
-  }
-}
+  useEffect(() => {
+    const getProjects = async () => {
+      const response = await fetch('http://localhost:3000/api/projects');
+      const newProjects = await response.json() as IProject[];
+      setProjects(newProjects);
+    };
+    getProjects();
+  }, []);
+
+  useEffect(() => {
+    if (projects.length) {
+      const currentProjectName = location.pathname.split('/')[1];
+      const newCurrentProject = findCurrentProject(currentProjectName);
+      setCurrentProject(newCurrentProject);
+      setIsLoadingProjects(false);
+    }
+  }, [location.pathname.split('/')[1], projects.reduce((acc, project) => `${acc},${project._id}`, '')]);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Banner
+        projects={projects}
+        loadingProjects={isLoadingProjects}
+        handleChange={onProjectSelect}
+        currentProject={currentProject}
+      />
+      <Switch>
+        <Route path="/edit">
+          Test
+        </Route>
+        <Route path="/:projectName/add" component={Test} />
+        <Route path="/">
+          <IssueContainer
+            currentProject={currentProject}
+            loadingProjects={isLoadingProjects}
+          />
+        </Route>
+      </Switch>
+    </ThemeProvider>
+  );
+};
 
 export default withRouter(App);
