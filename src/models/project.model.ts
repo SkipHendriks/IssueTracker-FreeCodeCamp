@@ -1,13 +1,13 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import mongooseHidden from 'mongoose-hidden';
 
-export interface IProject extends Document {
+export interface Project extends Document {
   name: string;
 }
 
-export interface IProjectModel extends Model<IProject> {
-  findOneByNameOrCreate(name: string): Promise<IProject>;
-  findOneByName(name: string): Promise<IProject>;
+interface ProjectModel extends Model<Project> {
+  findOneByNameOrCreate(name: string): Promise<Project>;
+  findOneByName(name: string): Promise<Project>;
 }
 
 const ProjectSchema: Schema = new Schema({
@@ -15,12 +15,12 @@ const ProjectSchema: Schema = new Schema({
 });
 
 /* eslint-disable func-names */
-ProjectSchema.statics.findOneByNameOrCreate = async function (name: string): Promise<IProject> {
-  const project: IProject = await this.findOne({ name });
+ProjectSchema.statics.findOneByNameOrCreate = async function (name: string): Promise<Project> {
+  const project: Project = await this.findOne({ name });
   return project || this.create({ name });
 };
 
-ProjectSchema.statics.findOneByName = async function (name: string): Promise<IProject> {
+ProjectSchema.statics.findOneByName = async function (name: string): Promise<Project> {
   return this.findOne({ name });
 };
 /* eslint-enable func-names */
@@ -28,4 +28,4 @@ ProjectSchema.statics.findOneByName = async function (name: string): Promise<IPr
 
 ProjectSchema.plugin(mongooseHidden({ defaultHidden: { __v: true } }));
 
-export default mongoose.model<IProject, IProjectModel>('Project', ProjectSchema);
+export default mongoose.model<Project, ProjectModel>('Project', ProjectSchema);

@@ -9,7 +9,7 @@ import { withStyles, WithStyles, Theme } from '@material-ui/core/styles';
 
 import IssueIcon from './issue-icon';
 import EditButton from './edit-button';
-import { IIssue } from '../../models/issue.model';
+import { Issue as IssueType } from '../../models/issue.model';
 
 const ExpansionPanelSummary = withStyles((theme: Theme) => ({
   root: {
@@ -105,12 +105,11 @@ const styles = (theme: Theme) => ({
   },
 });
 
-interface IProps extends WithStyles<typeof styles> {
-  issue: IIssue
+interface Props extends WithStyles<typeof styles> {
+  issue: IssueType
 }
 
-
-const Issue = ({ issue, classes }: IProps) => {
+const Issue = ({ issue, classes }: Props) => {
   let iconContainerExtensionColor;
   if (issue.open) {
     iconContainerExtensionColor = classes.iconContainerExtensionOpen;

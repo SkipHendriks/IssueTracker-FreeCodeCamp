@@ -4,7 +4,7 @@ import mongooseHidden from 'mongoose-hidden';
 import ObjectId = Schema.Types.ObjectId;
 
 
-export interface IIssue extends Document {
+export interface Issue extends Document {
   issue_title: String,
   issue_text: String,
   created_by: String,
@@ -27,4 +27,4 @@ const IssueSchema: Schema = new Schema({
 
 IssueSchema.plugin(mongooseHidden({ defaultHidden: { __v: true } }));
 
-export default mongoose.model<IIssue>('Issue', IssueSchema);
+export default mongoose.model<Issue>('Issue', IssueSchema);

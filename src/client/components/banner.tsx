@@ -9,12 +9,12 @@ import {
   OutlinedInput,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { IProject } from '../../models/project.model';
+import { Project } from '../../models/project.model';
 
-interface IProps {
-  projects: Array<IProject>;
+interface Props {
+  projects: Array<Project>;
   loadingProjects: boolean;
-  currentProject: IProject;
+  currentProject: Project;
 }
 
 const useOutlinedInputStyles = makeStyles((theme: Theme) => createStyles({
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 export default ({
   projects, loadingProjects, currentProject,
-}: IProps) => {
+}: Props) => {
   const classes = useStyles({});
   const outlinedInputClasses = useOutlinedInputStyles({});
 

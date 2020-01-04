@@ -6,7 +6,7 @@ import { ThemeProvider } from '@material-ui/core';
 
 import Banner from './banner';
 import IssueContainer from './issue-container';
-import { IProject } from '../../models/project.model';
+import { Project } from '../../models/project.model';
 import theme from '../styles/theme';
 
 const Test = ({ match }: RouteComponentProps<{projectName: string}>) => (
@@ -16,18 +16,18 @@ const Test = ({ match }: RouteComponentProps<{projectName: string}>) => (
 );
 
 const App = ({ location }: RouteComponentProps) => {
-  const [projects, setProjects] = useState<IProject[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [isLoadingProjects, setIsLoadingProjects] = useState(true);
-  const [currentProject, setCurrentProject] = useState<IProject | undefined>(undefined);
+  const [currentProject, setCurrentProject] = useState<Project | undefined>(undefined);
 
-  const findCurrentProject = (name: string): IProject => (
+  const findCurrentProject = (name: string): Project => (
     projects.find((project) => project.name === name)
   );
 
   useEffect(() => {
     const getProjects = async () => {
       const response = await fetch('http://localhost:3000/api/projects');
-      const newProjects = await response.json() as IProject[];
+      const newProjects = await response.json() as Project[];
       setProjects(newProjects);
     };
     getProjects();

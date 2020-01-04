@@ -32,11 +32,11 @@ const styles = (theme: Theme) => ({
   },
 });
 
-interface IProps extends WithStyles<typeof styles> {
+interface Props extends WithStyles<typeof styles> {
   open: boolean;
 }
 
-const IssueIcon = ({ open, classes }: IProps) => {
+const IssueIcon = ({ open, classes }: Props) => {
   let icon;
   if (open) {
     icon = (

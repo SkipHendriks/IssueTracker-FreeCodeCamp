@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 
 
 import Issue from './issue';
-import { IProject } from '../../models/project.model';
-import { IIssue } from '../../models/issue.model';
+import { Project } from '../../models/project.model';
+import { Issue as IssueType } from '../../models/issue.model';
 
 const styles = (theme: Theme) => createStyles({
   mainContainer: {
@@ -28,23 +28,24 @@ const styles = (theme: Theme) => createStyles({
   },
 });
 
-interface IProps extends WithStyles<typeof styles> {
-  currentProject: IProject;
+interface Props extends WithStyles<typeof styles> {
+  currentProject: Project;
   loadingProjects: boolean;
 }
 
-const IssueContainer = ({ currentProject, loadingProjects, classes }: IProps) => {
+const IssueContainer = ({ currentProject, loadingProjects, classes }: Props) => {
   const [isLoadingIssues, setIsLoadingIssues] = useState(true);
-  const [issues, setIssues] = useState<IIssue[]>([]);
+  const [issues, setIssues] = useState<IssueType[]>([]);
 
   useEffect(() => {
     if (!loadingProjects) {
       const getIssues = async () => {
         const url = `http://localhost:3000/api/issues/${currentProject?.name || ''}`;
         const response = await fetch(url);
-        const newIssues = await response.json() as IIssue[];
+        const newIssues = await response.json() as IssueType[];
         setIssues(newIssues);
       };
+      setIsLoadingIssues(true);
       getIssues();
       setIsLoadingIssues(false);
     }

@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import IssueModel, { IIssue } from '../models/issue.model';
-import ProjectModel, { IProject } from '../models/project.model';
+import IssueModel, { Issue } from '../models/issue.model';
+import ProjectModel, { Project } from '../models/project.model';
 
 export default class ApiController {
   public postIssue = async (req: Request, res: Response) => {
     const projectName: string = req.params.project;
-    const project: IProject = await ProjectModel.findOneByNameOrCreate(projectName);
-    const issue: IIssue = new IssueModel({ ...req.body, project_id: project._id });
+    const project: Project = await ProjectModel.findOneByNameOrCreate(projectName);
+    const issue: Issue = new IssueModel({ ...req.body, project_id: project._id });
     try {
       await issue.save();
       res.json(issue);
@@ -17,7 +17,6 @@ export default class ApiController {
 
   public putIssue = async (req: Request, res: Response) => {
     const { _id, ...updates } = req.body;
-    console.log(req.body);
     try {
       const issue = await IssueModel.findOneAndUpdate(
         { _id },
@@ -40,7 +39,7 @@ export default class ApiController {
       res.type('txt').status(400).send('_id error');
     } else {
       try {
-        const issue: IIssue = await IssueModel.findByIdAndDelete(_id);
+        const issue: Issue = await IssueModel.findByIdAndDelete(_id);
         if (issue) {
           res.type('txt').send(`successfully deleted ${_id}`);
         } else {
@@ -55,9 +54,9 @@ export default class ApiController {
   public getIssues = async (req: Request, res: Response) => {
     const projectName: string = req.params.project;
     try {
-      let issues: Array<IIssue>;
+      let issues: Array<Issue>;
       if (projectName) {
-        const project: IProject = await ProjectModel.findOneByName(projectName);
+        const project: Project = await ProjectModel.findOneByName(projectName);
         if (project) {
           issues = await IssueModel.find(
             { project_id: project._id, ...req.body },
@@ -77,7 +76,7 @@ export default class ApiController {
   public getProjects = async (req: Request, res: Response) => {
     const { limit } = req.body;
     try {
-      const projects: Array<IProject> = await ProjectModel.find().limit(limit);
+      const projects: Array<Project> = await ProjectModel.find().limit(limit);
       res.json(projects);
     } catch (error) {
       res.status(500).type('txt').send('server error');
