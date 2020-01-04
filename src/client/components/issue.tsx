@@ -8,8 +8,12 @@ import {
 import { withStyles, WithStyles, Theme } from '@material-ui/core/styles';
 
 import IssueIcon from './issue-icon';
+<<<<<<< HEAD
 import EditButton from './edit-button';
 import { Issue as IssueType } from '../../models/issue.model';
+=======
+import { IIssue } from '../../models/issue.model';
+>>>>>>> 544981d87dc1381e9149dc3146c213d9c79adc07
 
 const ExpansionPanelSummary = withStyles((theme: Theme) => ({
   root: {
@@ -39,11 +43,31 @@ const ExpansionPanelSummary = withStyles((theme: Theme) => ({
 const ExpansionPanel = withStyles({
   root: {
     padding: 0,
+<<<<<<< HEAD
     '&:not(:last-child)': {
       borderBottom: 0,
     },
   },
   expanded: {
+=======
+    // border: '1px solid rgba(0, 0, 0, .125)',
+    // boxShadow: 'none',
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    // '&$expanded + &::before': {
+    //   display: 'block',
+    //   opacity: 1,
+    // },
+    // '&$expanded': {
+    //   margin: 'auto',
+    // },
+  },
+  expanded: {
+    // '&::before': {
+    //   opacity: '1 !important',
+    // },
+>>>>>>> 544981d87dc1381e9149dc3146c213d9c79adc07
     borderRadius: '4px',
   },
 })(MuiExpansionPanel);
@@ -61,10 +85,18 @@ const ExpansionPanelDetails = withStyles({
       content: '""',
       opacity: 1,
       position: 'absolute',
+<<<<<<< HEAD
       backgroundColor: 'rgba(0, 0, 0, 0.12)',
     },
     expanded: {},
   },
+=======
+      // transition: 'none',
+      backgroundColor: 'rgba(0, 0, 0, 0.12)',
+    },
+  },
+  expanded: {},
+>>>>>>> 544981d87dc1381e9149dc3146c213d9c79adc07
 })(MuiExpansionPanelDetails);
 
 const styles = (theme: Theme) => ({
