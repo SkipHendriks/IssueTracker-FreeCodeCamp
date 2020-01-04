@@ -15,7 +15,7 @@ const Test = ({ match }: RouteComponentProps<{projectName: string}>) => (
   </>
 );
 
-const App = ({ location, history }: RouteComponentProps) => {
+const App = ({ location }: RouteComponentProps) => {
   const [projects, setProjects] = useState<IProject[]>([]);
   const [isLoadingProjects, setIsLoadingProjects] = useState(true);
   const [currentProject, setCurrentProject] = useState<IProject | undefined>(undefined);
@@ -23,13 +23,6 @@ const App = ({ location, history }: RouteComponentProps) => {
   const findCurrentProject = (name: string): IProject => (
     projects.find((project) => project.name === name)
   );
-
-  const onProjectSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    const newProjectName = event.target.value;
-    history.push(`/${newProjectName}`);
-    const newProject = findCurrentProject(newProjectName);
-    setCurrentProject(newProject);
-  };
 
   useEffect(() => {
     const getProjects = async () => {
@@ -54,7 +47,6 @@ const App = ({ location, history }: RouteComponentProps) => {
       <Banner
         projects={projects}
         loadingProjects={isLoadingProjects}
-        handleChange={onProjectSelect}
         currentProject={currentProject}
       />
       <Switch>

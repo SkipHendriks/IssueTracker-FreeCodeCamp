@@ -8,12 +8,12 @@ import {
   MenuItem,
   OutlinedInput,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { IProject } from '../../models/project.model';
 
 interface IProps {
   projects: Array<IProject>;
   loadingProjects: boolean;
-  handleChange(event: React.ChangeEvent<HTMLSelectElement>): void;
   currentProject: IProject;
 }
 
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 export default ({
-  projects, loadingProjects, handleChange, currentProject,
+  projects, loadingProjects, currentProject,
 }: IProps) => {
   const classes = useStyles({});
   const outlinedInputClasses = useOutlinedInputStyles({});
@@ -76,7 +76,15 @@ export default ({
         </MenuItem>
       ),
       projects.map((project) => (
-        <MenuItem value={project.name} key={project._id}>{project.name}</MenuItem>
+        <MenuItem
+          value={project.name}
+          key={project._id}
+          // @ts-ignore [1]
+          component={Link}
+          to={project.name}
+        >
+          {project.name}
+        </MenuItem>
       )),
     ];
   }
@@ -96,7 +104,6 @@ export default ({
           Issue Tracker
         </Typography>
         <Select
-          onChange={handleChange}
           value={selectValue}
           variant="outlined"
           classes={{ root: classes.select, icon: classes.selectIcon }}
