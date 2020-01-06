@@ -48,13 +48,11 @@ const IssueContainer = ({ currentProject, loadingProjects, classes }: Props) => 
 
   return (
     <>
-      {isLoadingIssues && <LinearProgress />}
-      {!isLoadingIssues && (
-        <Container className={classes.mainContainer}>
-          {!isLoadingIssues && issues.map((issue) => (
-            <Issue issue={issue} key={issue._id} />
-          ))}
+      {isLoadingIssues ? <LinearProgress /> : issues.map((issue) => (
+        <Issue issue={issue} key={issue._id} />
+      ))}
       <AddButton url={addUrl} />
+      )
     </>
   );
 };
