@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   withRouter, RouteComponentProps, Route, Switch,
 } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/core';
+import { ThemeProvider, LinearProgress } from '@material-ui/core';
 
 import Banner from './banner';
 import IssueContainer from './issue-container';
@@ -19,6 +19,7 @@ const Test = ({ match }: RouteComponentProps<{projectName: string}>) => (
 const App = ({ location }: RouteComponentProps) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoadingProjects, setIsLoadingProjects] = useState(true);
+  const [showLoadingBar, setShowLoadingBar] = useState(true);
   const [currentProject, setCurrentProject] = useState<Project | undefined>(undefined);
 
   const findCurrentProject = (name: string): Project => (
@@ -50,6 +51,7 @@ const App = ({ location }: RouteComponentProps) => {
         loadingProjects={isLoadingProjects}
         currentProject={currentProject}
       />
+      {showLoadingBar && <LinearProgress />}
       <MainContainer>
         <Switch>
           <Route path="/edit">
@@ -60,6 +62,7 @@ const App = ({ location }: RouteComponentProps) => {
             <IssueContainer
               currentProject={currentProject}
               loadingProjects={isLoadingProjects}
+              setShowLoadingBar={setShowLoadingBar}
             />
           </Route>
         </Switch>
