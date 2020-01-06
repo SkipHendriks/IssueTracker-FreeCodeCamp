@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 
 import Issue from './issue';
+import AddButton from './add-button';
 import { Project } from '../../models/project.model';
 import { Issue as IssueType } from '../../models/issue.model';
 
@@ -17,14 +18,6 @@ const styles = (theme: Theme) => createStyles({
     paddingBottom: theme.spacing(2),
     backgroundColor: '#f5f5f6',
     minHeight: 'calc(100vh - 72px)',
-  },
-  addButton: {
-    margin: 0,
-    top: 'auto',
-    right: 20,
-    bottom: 20,
-    left: 'auto',
-    position: 'fixed',
   },
 });
 
@@ -61,13 +54,7 @@ const IssueContainer = ({ currentProject, loadingProjects, classes }: Props) => 
           {!isLoadingIssues && issues.map((issue) => (
             <Issue issue={issue} key={issue._id} />
           ))}
-          <Link to={addUrl}>
-            <Fab color="primary" className={classes.addButton}>
-              <AddIcon />
-            </Fab>
-          </Link>
-        </Container>
-      )}
+      <AddButton url={addUrl} />
     </>
   );
 };
