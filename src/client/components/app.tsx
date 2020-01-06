@@ -8,6 +8,7 @@ import Banner from './banner';
 import IssueContainer from './issue-container';
 import { Project } from '../../models/project.model';
 import theme from '../styles/theme';
+import MainContainer from './main-container';
 
 const Test = ({ match }: RouteComponentProps<{projectName: string}>) => (
   <>
@@ -49,18 +50,20 @@ const App = ({ location }: RouteComponentProps) => {
         loadingProjects={isLoadingProjects}
         currentProject={currentProject}
       />
-      <Switch>
-        <Route path="/edit">
-          Test
-        </Route>
-        <Route path="/:projectName/add" component={Test} />
-        <Route path="/">
-          <IssueContainer
-            currentProject={currentProject}
-            loadingProjects={isLoadingProjects}
-          />
-        </Route>
-      </Switch>
+      <MainContainer>
+        <Switch>
+          <Route path="/edit">
+            Test
+          </Route>
+          <Route path="/:projectName/add" component={Test} />
+          <Route path="/">
+            <IssueContainer
+              currentProject={currentProject}
+              loadingProjects={isLoadingProjects}
+            />
+          </Route>
+        </Switch>
+      </MainContainer>
     </ThemeProvider>
   );
 };
