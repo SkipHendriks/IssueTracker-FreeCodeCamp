@@ -5,12 +5,12 @@ import ObjectId = Schema.Types.ObjectId;
 
 
 export interface Issue extends Document {
-  issue_title: String,
-  issue_text: String,
-  created_by: String,
-  assigned_to: String,
+  issue_title: string,
+  issue_text: string,
+  created_by: string,
+  assigned_to: string,
   open: boolean,
-  status_text: String,
+  status_text: string,
   project_id: ObjectId,
   updated_on: Date
 }
