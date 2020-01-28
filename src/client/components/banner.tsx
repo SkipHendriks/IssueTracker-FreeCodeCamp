@@ -61,6 +61,8 @@ export default ({
   const classes = useStyles({});
   const outlinedInputClasses = useOutlinedInputStyles({});
 
+  const selectValue = (loadingProjects || !currentProject) ? 'default' : currentProject.name;
+
   let menuItems;
   if (loadingProjects) {
     menuItems = (
@@ -87,14 +89,6 @@ export default ({
         </MenuItem>
       )),
     ];
-  }
-
-  let selectValue;
-
-  if (loadingProjects || !currentProject) {
-    selectValue = 'default';
-  } else {
-    selectValue = currentProject.name;
   }
 
   return (
