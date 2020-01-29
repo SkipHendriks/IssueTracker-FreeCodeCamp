@@ -6,20 +6,15 @@ import { ThemeProvider, LinearProgress } from '@material-ui/core';
 
 import Banner from './banner';
 import IssueContainer from './issue-container';
+import AddIssue from './add-issue';
 import { Project } from '../../models/project.model';
 import theme from '../styles/theme';
 import MainContainer from './main-container';
 
-const Test = ({ match }: RouteComponentProps<{projectName: string}>) => (
-  <>
-    {match.url}
-  </>
-);
-
 const App = ({ location }: RouteComponentProps) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoadingProjects, setIsLoadingProjects] = useState(true);
-  const [showLoadingBar, setShowLoadingBar] = useState(true);
+  const [showLoadingBar, setShowLoadingBar] = useState(false);
   const [currentProject, setCurrentProject] = useState<Project | undefined>(undefined);
 
   const findCurrentProject = (name: string): Project => (
@@ -57,7 +52,20 @@ const App = ({ location }: RouteComponentProps) => {
           <Route path="/edit">
             Test
           </Route>
-          <Route path="/:projectName/add" component={Test} />
+          <Route path="/add">
+            <AddIssue
+              projects={projects}
+              isLoadingProjects={isLoadingProjects}
+            />
+          </Route>
+          <Route path="/:projectName/add">
+            <AddIssue
+              currentProject={currentProject}
+              projects={projects}
+              isLoadingProjects={isLoadingProjects}
+            />
+          </Route>
+
           <Route path="/">
             <IssueContainer
               currentProject={currentProject}
