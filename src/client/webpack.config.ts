@@ -1,5 +1,6 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import htmlWebpackTemplate from 'html-webpack-template';
+import DotEnv from 'dotenv-webpack';
 import webpack from 'webpack';
 
 const htmlOptions: htmlWebpackTemplate.Options = {
@@ -33,6 +34,7 @@ const config: webpack.Configuration = {
   },
   plugins: [
     new HtmlWebpackPlugin(htmlOptions),
+    new DotEnv(),
   ],
 };
 

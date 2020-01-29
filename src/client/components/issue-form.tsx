@@ -232,7 +232,7 @@ export default withFormik<OtherProps, FormValues>({
     delete requestBody.project_id;
     try {
       await Axios.post(
-        `http://localhost:3000/api/issues/${projectName}`,
+        `${process.env.API_URL}/issues/${projectName}`,
         requestBody,
         { headers: { 'Content-Type': 'application/json' } },
       );
