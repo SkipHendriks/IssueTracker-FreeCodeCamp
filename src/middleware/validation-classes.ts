@@ -43,6 +43,9 @@ export class Post {
 
   @IsOptional()
   status_text: string;
+
+  @IsOptional()
+  open: boolean;
 }
 
 export class Put {
